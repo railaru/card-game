@@ -1,9 +1,13 @@
 import React from "react";
 
-import "./App.css";
+import CardGrid from "components/containers/CardGrid";
 
 function App() {
-  return <div className="App">hello</div>;
+  return (
+    <>
+      <CardGrid />
+    </>
+  );
 }
 
 export default App;
