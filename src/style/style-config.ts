@@ -21,8 +21,10 @@ export const devices = {
 };
 
 export const colors = {
-  light: "papayawhip",
-  dark: "#222",
+  light: "#F7CCAC",
+  dark: "#3A3845",
+  primary: "#C69B7B",
+  accent: "#826F66",
 };
 
 export const transitions = {
