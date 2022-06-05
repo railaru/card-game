@@ -1,8 +1,8 @@
 module.exports = {
   importOrder: [
     "^react/(.*)$",
+    "^@reduxjs/(.*)$",
     "^styled-components/(.*)$",
-    "^api/(.*)$",
     "^store/(.*)$",
     "^components/(.*)$",
     "^utilities/(.*)$",

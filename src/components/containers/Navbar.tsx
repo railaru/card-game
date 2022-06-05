@@ -15,7 +15,8 @@ const NavContainer = styled.div`
 function Navbar() {
   return (
     <NavContainer>
-      <Button>Start game</Button>
+      <Button key={1}>Start game</Button>
+      <Button key={2}>Top Score</Button>
     </NavContainer>
   );
 }
