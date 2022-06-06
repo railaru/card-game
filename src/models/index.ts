@@ -1,11 +1,11 @@
-interface CharacterListInfo {
+export interface CharacterListInfo {
   count: number;
   pages: number;
   next: null | string;
   prev: null | string;
 }
 
-interface Character {
+export interface Character {
   id: number;
   name: string;
   status: string;
@@ -29,4 +29,10 @@ interface Character {
 export interface GetCharactersResponse {
   info: CharacterListInfo;
   results: Character[];
+}
+
+export interface Card {
+  name: string;
+  isMatching: boolean;
+  imgSrc: string;
 }

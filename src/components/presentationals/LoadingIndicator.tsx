@@ -7,7 +7,7 @@ const LoadingIndicatorContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 61px);
+  height: 100vh;
 `;
 
 const LoadingIndicatorText = styled.p`

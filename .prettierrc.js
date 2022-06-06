@@ -3,6 +3,7 @@ module.exports = {
     "^react/(.*)$",
     "^@reduxjs/(.*)$",
     "^styled-components/(.*)$",
+    "^models/(.*)$",
     "^store/(.*)$",
     "^components/(.*)$",
     "^utilities/(.*)$",
