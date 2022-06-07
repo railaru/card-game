@@ -1,10 +1,13 @@
 import { Card, Character, GameScoreValue } from "models";
 
-export function formatCharactersToCards(characters: Character[] | undefined) {
+export function formatCharactersToCards(
+  characters: Character[] | undefined,
+  deckSize: number
+) {
   const formattedCards: Card[] = [];
 
   characters?.forEach((character, index) => {
-    if (index < 12) {
+    if (index < deckSize / 2) {
       formattedCards.push({
         name: character.name,
         imgSrc: character.image,

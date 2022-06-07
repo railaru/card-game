@@ -3,13 +3,19 @@ import styled from "styled-components";
 
 import { colors, transitions } from "style/style-config";
 
-const ButtonContainer = styled.button`
+interface ButtonContainerProps {
+  readonly isActive?: boolean;
+}
+
+const ButtonContainer = styled.button<ButtonContainerProps>`
   cursor: pointer;
   font-size: 18px;
   font-weight: 600;
   padding: 20px;
   color: ${colors.dark};
   transition: color ${transitions.fast};
+  background: ${(props) => (props.isActive ? colors.blue : "transparent")};
+  color: ${(props) => (props.isActive ? colors.light : colors.dark)};
   &:hover,
   &:focus {
     color: ${colors.accent};
@@ -20,11 +26,14 @@ const ButtonContainer = styled.button`
 interface Props {
   children: JSX.Element | string;
   onClick: () => void;
+  isActive?: boolean;
 }
 
-function Button({ children, onClick }: Props) {
+function Button({ children, onClick, isActive }: Props) {
   return (
-    <ButtonContainer onClick={() => onClick()}>{children}</ButtonContainer>
+    <ButtonContainer isActive={isActive} onClick={() => onClick()}>
+      {children}
+    </ButtonContainer>
   );
 }
 

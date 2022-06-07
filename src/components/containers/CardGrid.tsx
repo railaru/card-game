@@ -7,6 +7,7 @@ import { formatCharactersToCards, shuffleCards } from "utilities";
 import { characterApi } from "store/api/characters";
 import {
   GAME_STATUS,
+  getCurrentDeckSize,
   getCurrentElapsedTime,
   getCurrentGameStatus,
   getCurrentTurnCount,
@@ -47,6 +48,7 @@ function CardGrid() {
   const currentGameStatus = useTypedSelector(getCurrentGameStatus);
   const currentTurnCount = useTypedSelector(getCurrentTurnCount);
   const currentEllapsedTime = useTypedSelector(getCurrentElapsedTime);
+  const currentDeckSize = useTypedSelector(getCurrentDeckSize);
   const { data } = characterApi.useGetAllQuery();
   const [cards, setCards] = useState<Card[]>([]);
   const [choiceOne, setChoiceOne] = useState<Card | null>(null);
@@ -54,7 +56,10 @@ function CardGrid() {
   const [trackTime, setTrackTime] = useState(false);
   const [isCardSelectionDisabled, setIsCardSelectionDisabled] = useState(false);
   const dispatch = useAppDispatch();
-  const formattedCards = formatCharactersToCards(data?.results);
+  const formattedCards = formatCharactersToCards(
+    data?.results,
+    currentDeckSize
+  );
   const cardPreviewTimeout = 1000;
 
   // double the card array, sort them randomly

@@ -25,6 +25,7 @@ export const colors = {
   dark: "#3A3845",
   primary: "#C69B7B",
   accent: "#826F66",
+  blue: "deepskyblue",
 };
 
 export const transitions = {

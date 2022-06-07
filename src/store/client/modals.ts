@@ -7,11 +7,13 @@ import { REDUCER_SLICES } from "store/constants";
 type SliceState = {
   isScoreModalOpened: boolean;
   isMobileMenuModalOpened: boolean;
+  isDeckSizeModalOpened: boolean;
 };
 
 const initialState: SliceState = {
   isScoreModalOpened: false,
   isMobileMenuModalOpened: false,
+  isDeckSizeModalOpened: false,
 };
 
 const slice = createSlice({
@@ -24,10 +26,17 @@ const slice = createSlice({
     toggleMobileMenuModal(state) {
       state.isMobileMenuModalOpened = !state.isMobileMenuModalOpened;
     },
+    toggleDeckSizeModalOpened(state) {
+      state.isDeckSizeModalOpened = !state.isDeckSizeModalOpened;
+    },
   },
 });
 
-export const { toggleScoreModal, toggleMobileMenuModal } = slice.actions;
+export const {
+  toggleScoreModal,
+  toggleMobileMenuModal,
+  toggleDeckSizeModalOpened,
+} = slice.actions;
 
 export default slice.reducer;
 
@@ -36,3 +45,5 @@ export const selectIsScoreModalOpened = (state: RootState) =>
 
 export const selectIsMobileMenuModalOpened = (state: RootState) =>
   state.modals.isMobileMenuModalOpened;
+export const selectIsDeckSizeModalOpened = (state: RootState) =>
+  state.modals.isDeckSizeModalOpened;

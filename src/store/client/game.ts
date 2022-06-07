@@ -4,6 +4,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { REDUCER_SLICES } from "store/constants";
 
+export enum DECK_SIZE {
+  TWENTY_FOUR = 24,
+  EIGHT = 8,
+  FOUR = 4,
+}
+
 export enum GAME_STATUS {
   NOT_STARTED = "NOT_STARTED",
   PLAYING = "PLAYING",
@@ -15,12 +21,14 @@ type SliceState = {
   gameStatus: GAME_STATUS;
   turnCount: number;
   elapsedTime: number;
+  deckSize: number;
 };
 
 const initialState: SliceState = {
   gameStatus: GAME_STATUS.NOT_STARTED,
   turnCount: 0,
   elapsedTime: 0,
+  deckSize: DECK_SIZE.TWENTY_FOUR,
 };
 
 const slice = createSlice({
@@ -57,6 +65,9 @@ const slice = createSlice({
     increaseElapsedTime(state, action) {
       state.elapsedTime = state.elapsedTime + action.payload;
     },
+    setDeckSize(state, action) {
+      state.deckSize = action.payload;
+    },
   },
 });
 
@@ -65,6 +76,7 @@ export const {
   setTurnCount,
   increaseElapsedTime,
   setElapsedTime,
+  setDeckSize,
 } = slice.actions;
 
 export default slice.reducer;
@@ -73,3 +85,4 @@ export const getCurrentGameStatus = (state: RootState) => state.game.gameStatus;
 export const getCurrentTurnCount = (state: RootState) => state.game.turnCount;
 export const getCurrentElapsedTime = (state: RootState) =>
   state.game.elapsedTime;
+export const getCurrentDeckSize = (state: RootState) => state.game.deckSize;
