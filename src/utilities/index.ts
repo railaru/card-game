@@ -1,4 +1,4 @@
-import { Card, Character } from "models";
+import { Card, Character, GameScoreValue } from "models";
 
 export function formatCharactersToCards(characters: Character[] | undefined) {
   const formattedCards: Card[] = [];
@@ -14,4 +14,10 @@ export function formatCharactersToCards(characters: Character[] | undefined) {
   });
 
   return formattedCards;
+}
+
+export function sortByHighestScore(scores: GameScoreValue[]) {
+  return scores.sort(
+    (a, b) => a.turnCount * a.elapsedTime - b.turnCount * b.elapsedTime
+  );
 }

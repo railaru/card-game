@@ -7,8 +7,6 @@ import { toggleScoreModal } from "store/client/modals";
 
 import Button from "components/presentationals/Button";
 
-import { colors, transitions } from "style/style-config";
-
 const GameFinishScreenContainer = styled.div`
   height: calc(100vh - 68px);
   display: flex;

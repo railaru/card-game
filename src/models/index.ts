@@ -36,3 +36,8 @@ export interface Card {
   isMatching: boolean;
   imgSrc: string;
 }
+
+export interface GameScoreValue {
+  elapsedTime: number;
+  turnCount: number;
+}

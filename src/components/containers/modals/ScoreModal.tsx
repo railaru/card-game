@@ -1,6 +1,8 @@
+import { GameScoreValue } from "models";
 import React from "react";
 import { useAppDispatch } from "store";
 import styled from "styled-components";
+import { sortByHighestScore } from "utilities";
 
 import { toggleScoreModal } from "store/client/modals";
 
@@ -49,20 +51,52 @@ const ModalTop = styled.div`
   }
 `;
 
+const ModalBottom = styled.div`
+  overflow-y: scroll;
+  padding-bottom: 15px;
+  @media ${devices.tablet} {
+    height: 200px;
+  }
+`;
+
 const ModalTitle = styled.h3`
   font-size: 16px;
 `;
 
+const ScoreValueSection = styled.div`
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid ${colors.dark};
+  display: flex; ;
+`;
+
+const ScoreValue = styled.div`
+  margin-right: 20px;
+`;
+
 function ScoreModal() {
   const dispatch = useAppDispatch();
+  const scoreValues = localStorage.getItem("game_score");
+  const scoreValuesParsed = scoreValues ? JSON.parse(scoreValues) : null;
+  const scoreValuesSorted = sortByHighestScore(scoreValuesParsed);
 
   return (
     <ModalContainer>
       <ModalContent>
         <ModalTop>
-          <ModalTitle>Scoreboard</ModalTitle>
+          <ModalTitle>📊 Scoreboard</ModalTitle>
           <Button onClick={() => dispatch(toggleScoreModal())}>Close</Button>
         </ModalTop>
+        <ModalBottom>
+          {scoreValuesSorted.map((item: GameScoreValue, index: number) => {
+            return (
+              <ScoreValueSection key={index}>
+                <ScoreValue>🖱️ Turns: {item.turnCount}</ScoreValue>
+                <ScoreValue>⏱️ Elapsed seconds: {item.elapsedTime}</ScoreValue>
+              </ScoreValueSection>
+            );
+          })}
+        </ModalBottom>
       </ModalContent>
     </ModalContainer>
   );

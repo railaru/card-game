@@ -7,8 +7,13 @@ import { formatCharactersToCards } from "utilities";
 import { characterApi } from "store/api/characters";
 import {
   GAME_STATUS,
+  getCurrentElapsedTime,
   getCurrentGameStatus,
+  getCurrentTurnCount,
+  increaseElapsedTime,
+  setElapsedTime,
   setGameStatus,
+  setTurnCount,
 } from "store/client/game";
 
 import GameCard from "components/presentationals/GameCard";
@@ -40,11 +45,13 @@ const GridContainer = styled.div`
 
 function CardGrid() {
   const currentGameStatus = useTypedSelector(getCurrentGameStatus);
+  const currentTurnCount = useTypedSelector(getCurrentTurnCount);
+  const currentEllapsedTime = useTypedSelector(getCurrentElapsedTime);
   const { data } = characterApi.useGetAllQuery();
   const [cards, setCards] = useState<Card[]>([]);
-  const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState<Card | null>(null);
   const [choiceTwo, setChoiceTwo] = useState<Card | null>(null);
+  const [trackTime, setTrackTime] = useState(false);
   const [isCardSelectionDisabled, setIsCardSelectionDisabled] = useState(false);
   const dispatch = useAppDispatch();
   const formattedCards = formatCharactersToCards(data?.results);
@@ -57,7 +64,9 @@ function CardGrid() {
       .map((card) => ({ ...card, id: Math.random() }));
 
     setCards(shuffledCards);
-    setTurns(0);
+    dispatch(setTurnCount(0));
+    setTrackTime(true);
+    dispatch(setElapsedTime(0));
   };
 
   // one turn is 2 clicked cards, fill tate for both cards for the same turn
@@ -69,7 +78,7 @@ function CardGrid() {
   const resetTurns = () => {
     setChoiceOne(null);
     setChoiceTwo(null);
-    setTurns((prevTurns) => prevTurns + 1);
+    dispatch(setTurnCount(currentTurnCount + 1));
     setIsCardSelectionDisabled(false);
   };
 
@@ -122,6 +131,16 @@ function CardGrid() {
       }, cardPreviewTimeout);
     }
   }, [cards]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (trackTime) {
+        dispatch(increaseElapsedTime(currentEllapsedTime + 1));
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [trackTime]);
 
   return (
     <GridContainer>

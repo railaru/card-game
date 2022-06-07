@@ -4,12 +4,15 @@ import styled from "styled-components";
 
 import {
   GAME_STATUS,
+  getCurrentElapsedTime,
   getCurrentGameStatus,
+  getCurrentTurnCount,
   setGameStatus,
 } from "store/client/game";
 import { toggleScoreModal } from "store/client/modals";
 
 import Button from "components/presentationals/Button";
+import Pill from "components/presentationals/Pill";
 
 import { boxShadows, colors } from "style/style-config";
 
@@ -28,6 +31,8 @@ const NavContainer = styled.div`
 function Navbar() {
   const dispatch = useAppDispatch();
   const currentGameStatus = useTypedSelector(getCurrentGameStatus);
+  const currentTurnCount = useTypedSelector(getCurrentTurnCount);
+  const currentElapsedTime = useTypedSelector(getCurrentElapsedTime);
   const showStartButton = currentGameStatus === GAME_STATUS.NOT_STARTED;
   const showRestartButton = currentGameStatus === GAME_STATUS.FINISHED;
 
@@ -49,10 +54,19 @@ function Navbar() {
           🔁 Restart Game
         </Button>
       )}
-
       <Button key={3} onClick={() => dispatch(toggleScoreModal())}>
         📊 Top Score
       </Button>
+      {currentTurnCount > 0 && (
+        <Pill key={4}>
+          <>🖱️ Turns: {currentTurnCount}</>
+        </Pill>
+      )}
+      {currentElapsedTime > 0 && (
+        <Pill key={5}>
+          <>⏱️ Elapsed seconds: {currentElapsedTime}</>
+        </Pill>
+      )}
     </NavContainer>
   );
 }
