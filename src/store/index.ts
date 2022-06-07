@@ -1,17 +1,28 @@
-import { GetCharactersResponse } from "models";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ConfigureStoreOptions, configureStore } from "@reduxjs/toolkit";
 
-import { QUERY_KEYS } from "store/constants";
+import { characterApi } from "store/api/characters";
+import game from "store/client/game";
+import modals from "store/client/modals";
 
-export const characterApi = createApi({
-  reducerPath: "characterApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_BASE_URL }),
-  tagTypes: [QUERY_KEYS.CHARACTERS],
-  endpoints: (builder) => ({
-    getAll: builder.query<GetCharactersResponse, void>({
-      query: () => "/character",
-      providesTags: [{ type: QUERY_KEYS.CHARACTERS, id: "LIST" }],
-    }),
-  }),
-});
+export const createStore = (
+  options?: ConfigureStoreOptions["preloadedState"] | undefined
+) =>
+  configureStore({
+    reducer: {
+      [characterApi.reducerPath]: characterApi.reducer,
+      modals,
+      game,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(characterApi.middleware),
+    ...options,
+  });
+
+export const store = createStore();
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export type RootState = ReturnType<typeof store.getState>;
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

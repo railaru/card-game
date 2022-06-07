@@ -11,9 +11,13 @@ interface Props {
   isDisabled: boolean;
 }
 
-const CardContainer = styled.div`
+interface CardContainerProps {
+  readonly isFlipped: boolean;
+}
+
+const CardContainer = styled.div<CardContainerProps>`
   position: relative;
-  cursor: pointer;
+  cursor: ${(props) => (props.isFlipped ? "not-allowed" : "pointer")};
   border-radius: 8px;
   background: ${colors.light};
   box-shadow: ${boxShadows.softWide};
@@ -31,6 +35,7 @@ interface CardFrontProps {
 }
 
 const CardFront = styled.div<CardFrontProps>`
+  width: 100%;
   transform: ${(props) =>
     props.isFlipped ? "rotateY(0deg)" : "rotateY(90deg)"};
   transition: all ease-in ${transitions.medium};
@@ -73,7 +78,7 @@ function GameCardJustImage({ card, onClick, isFlipped, isDisabled }: Props) {
   };
 
   return (
-    <CardContainer>
+    <CardContainer isFlipped={isFlipped}>
       <CardFront isFlipped={isFlipped}>
         <CardImage src={card.imgSrc} alt="Card front" />
         <CardText>{card.name}</CardText>

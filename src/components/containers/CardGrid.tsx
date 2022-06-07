@@ -1,8 +1,15 @@
 import { Card } from "models";
 import React, { useEffect, useState } from "react";
-import { characterApi } from "store";
+import { useAppDispatch, useTypedSelector } from "store";
 import styled from "styled-components";
 import { formatCharactersToCards } from "utilities";
+
+import { characterApi } from "store/api/characters";
+import {
+  GAME_STATUS,
+  getCurrentGameStatus,
+  setGameStatus,
+} from "store/client/game";
 
 import GameCard from "components/presentationals/GameCard";
 
@@ -32,14 +39,16 @@ const GridContainer = styled.div`
 `;
 
 function CardGrid() {
+  const currentGameStatus = useTypedSelector(getCurrentGameStatus);
   const { data } = characterApi.useGetAllQuery();
   const [cards, setCards] = useState<Card[]>([]);
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState<Card | null>(null);
   const [choiceTwo, setChoiceTwo] = useState<Card | null>(null);
   const [isCardSelectionDisabled, setIsCardSelectionDisabled] = useState(false);
-
+  const dispatch = useAppDispatch();
   const formattedCards = formatCharactersToCards(data?.results);
+  const cardPreviewTimeout = 1000;
 
   // double the card array, sort them randomly, map and append a random id
   const shuffleCards = () => {
@@ -84,14 +93,35 @@ function CardGrid() {
         resetTurns();
       } else {
         // show not matching turn cards briefly before flipping them back
-        setTimeout(() => resetTurns(), 1000);
+        setTimeout(() => resetTurns(), cardPreviewTimeout);
       }
     }
   }, [choiceOne, choiceTwo]);
 
   useEffect(() => {
-    shuffleCards();
-  }, []);
+    if (currentGameStatus === GAME_STATUS.PLAYING) {
+      shuffleCards();
+    }
+    if (currentGameStatus === GAME_STATUS.RESTARTED) {
+      shuffleCards();
+    }
+  }, [currentGameStatus]);
+
+  useEffect(() => {
+    let flippedCardCount = 0;
+
+    cards.forEach((card) => {
+      if (card.isMatching) {
+        flippedCardCount++;
+      }
+    });
+
+    if (flippedCardCount === cards.length && cards.length > 0) {
+      setTimeout(() => {
+        dispatch(setGameStatus(GAME_STATUS.FINISHED));
+      }, cardPreviewTimeout);
+    }
+  }, [cards]);
 
   return (
     <GridContainer>

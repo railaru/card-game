@@ -19,10 +19,13 @@ const ButtonContainer = styled.button`
 
 interface Props {
   children: JSX.Element | string;
+  onClick: () => void;
 }
 
-function Button({ children }: Props) {
-  return <ButtonContainer>{children}</ButtonContainer>;
+function Button({ children, onClick }: Props) {
+  return (
+    <ButtonContainer onClick={() => onClick()}>{children}</ButtonContainer>
+  );
 }
 
 export default Button;
