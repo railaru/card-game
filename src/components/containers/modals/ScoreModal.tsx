@@ -78,10 +78,9 @@ function ScoreModal() {
   const dispatch = useAppDispatch();
   const scoreValues = localStorage.getItem("game_score");
   const scoreValuesParsed = scoreValues ? JSON.parse(scoreValues) : null;
-  const scoreValuesSorted = sortByHighestScore(scoreValuesParsed);
-
-  console.log({ scoreValuesParsed });
-  console.log({ scoreValuesSorted });
+  const scoreValuesSorted = scoreValuesParsed
+    ? sortByHighestScore(scoreValuesParsed)
+    : null;
 
   return (
     <ModalContainer>
@@ -91,14 +90,20 @@ function ScoreModal() {
           <Button onClick={() => dispatch(toggleScoreModal())}>Close</Button>
         </ModalTop>
         <ModalBottom>
-          {scoreValuesSorted.map((item: GameScoreValue, index: number) => {
-            return (
-              <ScoreValueSection key={index}>
-                <ScoreValue>🖱️ Turns: {item.turnCount}</ScoreValue>
-                <ScoreValue>⏱️ Elapsed seconds: {item.elapsedTime}</ScoreValue>
-              </ScoreValueSection>
-            );
-          })}
+          {scoreValuesSorted ? (
+            scoreValuesSorted.map((item: GameScoreValue, index: number) => {
+              return (
+                <ScoreValueSection key={index}>
+                  <ScoreValue>🖱️ Turns: {item.turnCount}</ScoreValue>
+                  <ScoreValue>
+                    ⏱️ Elapsed seconds: {item.elapsedTime}
+                  </ScoreValue>
+                </ScoreValueSection>
+              );
+            })
+          ) : (
+            <>No score yet keep playing!</>
+          )}
         </ModalBottom>
       </ModalContent>
     </ModalContainer>

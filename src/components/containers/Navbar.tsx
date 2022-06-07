@@ -9,23 +9,38 @@ import {
   getCurrentTurnCount,
   setGameStatus,
 } from "store/client/game";
-import { toggleScoreModal } from "store/client/modals";
+import { toggleMobileMenuModal, toggleScoreModal } from "store/client/modals";
 
 import Button from "components/presentationals/Button";
 import Pill from "components/presentationals/Pill";
 
-import { boxShadows, colors } from "style/style-config";
+import { boxShadows, colors, devices } from "style/style-config";
 
 const NavContainer = styled.div`
   background: ${colors.light};
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: sticky;
   top: 0;
   left: 0;
   z-index: 10;
   box-shadow: ${boxShadows.softWide};
+`;
+
+const NavContentDesktop = styled.div`
+  display: none;
+  @media ${devices.laptop} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const NavContentMobile = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  @media ${devices.laptop} {
+    display: none;
+  }
 `;
 
 function Navbar() {
@@ -38,35 +53,40 @@ function Navbar() {
 
   return (
     <NavContainer>
-      {showStartButton && (
-        <Button
-          key={1}
-          onClick={() => dispatch(setGameStatus(GAME_STATUS.PLAYING))}
-        >
-          ▶️ Start Game
+      <NavContentDesktop>
+        {showStartButton && (
+          <Button
+            key={1}
+            onClick={() => dispatch(setGameStatus(GAME_STATUS.PLAYING))}
+          >
+            ▶️ Start Game
+          </Button>
+        )}
+        {showRestartButton && (
+          <Button
+            key={2}
+            onClick={() => dispatch(setGameStatus(GAME_STATUS.RESTARTED))}
+          >
+            🔁 Restart Game
+          </Button>
+        )}
+        <Button key={3} onClick={() => dispatch(toggleScoreModal())}>
+          📊 Top Score
         </Button>
-      )}
-      {showRestartButton && (
-        <Button
-          key={2}
-          onClick={() => dispatch(setGameStatus(GAME_STATUS.RESTARTED))}
-        >
-          🔁 Restart Game
-        </Button>
-      )}
-      <Button key={3} onClick={() => dispatch(toggleScoreModal())}>
-        📊 Top Score
-      </Button>
-      {currentTurnCount > 0 && (
-        <Pill key={4}>
-          <>🖱️ Turns: {currentTurnCount}</>
-        </Pill>
-      )}
-      {currentElapsedTime > 0 && (
-        <Pill key={5}>
-          <>⏱️ Elapsed seconds: {currentElapsedTime}</>
-        </Pill>
-      )}
+        {currentTurnCount > 0 && (
+          <Pill key={4}>
+            <>🖱️ Turns: {currentTurnCount}</>
+          </Pill>
+        )}
+        {currentElapsedTime > 0 && (
+          <Pill key={5}>
+            <>⏱️ Elapsed seconds: {currentElapsedTime}</>
+          </Pill>
+        )}
+      </NavContentDesktop>
+      <NavContentMobile>
+        <Button onClick={() => dispatch(toggleMobileMenuModal())}>Menu</Button>
+      </NavContentMobile>
     </NavContainer>
   );
 }
