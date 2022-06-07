@@ -80,6 +80,9 @@ function ScoreModal() {
   const scoreValuesParsed = scoreValues ? JSON.parse(scoreValues) : null;
   const scoreValuesSorted = sortByHighestScore(scoreValuesParsed);
 
+  console.log({ scoreValuesParsed });
+  console.log({ scoreValuesSorted });
+
   return (
     <ModalContainer>
       <ModalContent>
