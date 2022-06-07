@@ -2,7 +2,7 @@ import { Card } from "models";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useTypedSelector } from "store";
 import styled from "styled-components";
-import { formatCharactersToCards } from "utilities";
+import { formatCharactersToCards, shuffleCards } from "utilities";
 
 import { characterApi } from "store/api/characters";
 import {
@@ -57,11 +57,9 @@ function CardGrid() {
   const formattedCards = formatCharactersToCards(data?.results);
   const cardPreviewTimeout = 1000;
 
-  // double the card array, sort them randomly, map and append a random id
-  const shuffleCards = () => {
-    const shuffledCards = [...formattedCards, ...formattedCards]
-      .sort(() => Math.random() - 0.5)
-      .map((card) => ({ ...card, id: Math.random() }));
+  // double the card array, sort them randomly
+  const startGame = () => {
+    const shuffledCards = shuffleCards(formattedCards);
 
     setCards(shuffledCards);
     dispatch(setTurnCount(0));
@@ -109,10 +107,10 @@ function CardGrid() {
 
   useEffect(() => {
     if (currentGameStatus === GAME_STATUS.PLAYING) {
-      shuffleCards();
+      startGame();
     }
     if (currentGameStatus === GAME_STATUS.RESTARTED) {
-      shuffleCards();
+      startGame();
     }
   }, [currentGameStatus]);
 

@@ -21,3 +21,11 @@ export function sortByHighestScore(scores: GameScoreValue[]) {
     (a, b) => a.turnCount * a.elapsedTime - b.turnCount * b.elapsedTime
   );
 }
+
+export function shuffleCards(cards: Card[]): Card[] {
+  const shuffledCards = [...cards, ...cards]
+    .sort(() => Math.random() - 0.5)
+    .map((card) => ({ ...card, id: Math.random() }));
+
+  return shuffledCards;
+}
