@@ -1,19 +1,9 @@
-import { GameScoreValue } from "models";
 import React from "react";
 import { useAppDispatch, useTypedSelector } from "store";
 import styled from "styled-components";
-import { sortByHighestScore } from "utilities";
 
-import {
-  DECK_SIZE,
-  getCurrentDeckSize,
-  setDeckSize,
-  setElapsedTime,
-} from "store/client/game";
-import {
-  toggleDeckSizeModalOpened,
-  toggleScoreModal,
-} from "store/client/modals";
+import { DECK_SIZE, getCurrentDeckSize, setDeckSize } from "store/client/game";
+import { toggleDeckSizeModalOpened } from "store/client/modals";
 
 import Button from "components/presentationals/Button";
 
