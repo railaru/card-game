@@ -9,7 +9,10 @@ import {
   getCurrentTurnCount,
   setGameStatus,
 } from "store/client/game";
-import { toggleMobileMenuModal } from "store/client/modals";
+import {
+  toggleDeckSizeModalOpened,
+  toggleMobileMenuModal,
+} from "store/client/modals";
 
 import Button from "components/presentationals/Button";
 import Pill from "components/presentationals/Pill";
@@ -50,6 +53,8 @@ const ModalTop = styled.div`
 const ModalBottom = styled.div`
   border-top: 2px solid ${colors.dark};
   padding-bottom: 15px;
+  display: flex;
+  flex-flow: column nowrap;
 `;
 
 function MobileMenuNavModal() {
@@ -59,6 +64,7 @@ function MobileMenuNavModal() {
   const currentElapsedTime = useTypedSelector(getCurrentElapsedTime);
   const showStartButton = currentGameStatus === GAME_STATUS.NOT_STARTED;
   const showRestartButton = currentGameStatus === GAME_STATUS.FINISHED;
+  const showDeckSizeButton = currentGameStatus === GAME_STATUS.NOT_STARTED;
 
   return (
     <ModalContainer>
@@ -69,6 +75,14 @@ function MobileMenuNavModal() {
           </Button>
         </ModalTop>
         <ModalBottom>
+          {showDeckSizeButton && (
+            <Button
+              key={0}
+              onClick={() => dispatch(toggleDeckSizeModalOpened())}
+            >
+              🃏 Deck Size
+            </Button>
+          )}
           {showStartButton && (
             <Button
               key={1}
