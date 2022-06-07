@@ -4,7 +4,7 @@ export function formatCharactersToCards(characters: Character[] | undefined) {
   const formattedCards: Card[] = [];
 
   characters?.forEach((character, index) => {
-    if (index < 2) {
+    if (index < 12) {
       formattedCards.push({
         name: character.name,
         imgSrc: character.image,
