@@ -26,14 +26,14 @@ const GridContainer = styled.div`
   max-width: 1024px;
   margin: 0 auto;
   display: grid;
-  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 
-  @media ${devices.mobileXl} {
-    grid-template-columns: 1fr 1fr;
+  @media ${devices.tablet} {
+    grid-gap: 20px;
+    grid-gap: 30px;
   }
 
   @media ${devices.laptop} {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 30px;
   }
 

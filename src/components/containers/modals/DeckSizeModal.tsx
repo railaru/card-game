@@ -11,7 +11,7 @@ import { colors, devices } from "style/style-config";
 
 const ModalContainer = styled.div`
   position: fixed;
-  z-index: 101;
+  z-index: 102;
   left: 0;
   top: 0;
   width: 100vw;
@@ -24,7 +24,7 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   background: ${colors.light};
-  z-index: 102;
+  z-index: 103;
   position: absolute;
   left: 0;
   top: 0;

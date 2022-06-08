@@ -22,7 +22,8 @@ import { boxShadows, colors, devices } from "style/style-config";
 
 const NavContainer = styled.div`
   background: ${colors.light};
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   left: 0;
   z-index: 10;
@@ -42,7 +43,9 @@ const NavContentMobile = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
+  width: 100%;
   @media ${devices.laptop} {
+    height: 100%;
     display: none;
   }
 `;

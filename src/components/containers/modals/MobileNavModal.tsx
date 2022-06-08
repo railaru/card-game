@@ -12,6 +12,7 @@ import {
 import {
   toggleDeckSizeModalOpened,
   toggleMobileMenuModal,
+  toggleScoreModal,
 } from "store/client/modals";
 
 import Button from "components/presentationals/Button";
@@ -27,20 +28,8 @@ const ModalContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow-y: scroll;
-`;
-
-const ModalContent = styled.div`
   background: ${colors.light};
-  z-index: 101;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
 `;
 
 const ModalTop = styled.div`
@@ -68,49 +57,45 @@ function MobileMenuNavModal() {
 
   return (
     <ModalContainer>
-      <ModalContent>
-        <ModalTop>
-          <Button onClick={() => dispatch(toggleMobileMenuModal())}>
-            Close
+      <ModalTop>
+        <Button onClick={() => dispatch(toggleMobileMenuModal())}>Close</Button>
+      </ModalTop>
+      <ModalBottom>
+        {showDeckSizeButton && (
+          <Button key={0} onClick={() => dispatch(toggleDeckSizeModalOpened())}>
+            🃏 Deck Size
           </Button>
-        </ModalTop>
-        <ModalBottom>
-          {showDeckSizeButton && (
-            <Button
-              key={0}
-              onClick={() => dispatch(toggleDeckSizeModalOpened())}
-            >
-              🃏 Deck Size
-            </Button>
-          )}
-          {showStartButton && (
-            <Button
-              key={1}
-              onClick={() => dispatch(setGameStatus(GAME_STATUS.PLAYING))}
-            >
-              ▶️ Start Game
-            </Button>
-          )}
-          {showRestartButton && (
-            <Button
-              key={2}
-              onClick={() => dispatch(setGameStatus(GAME_STATUS.RESTARTED))}
-            >
-              🔁 Restart Game
-            </Button>
-          )}
-          {currentTurnCount > 0 && (
-            <Pill key={4}>
-              <>🖱️ Turns: {currentTurnCount}</>
-            </Pill>
-          )}
-          {currentElapsedTime > 0 && (
-            <Pill key={5}>
-              <>⏱️ Elapsed seconds: {currentElapsedTime}</>
-            </Pill>
-          )}
-        </ModalBottom>
-      </ModalContent>
+        )}
+        {showStartButton && (
+          <Button
+            key={1}
+            onClick={() => dispatch(setGameStatus(GAME_STATUS.PLAYING))}
+          >
+            ▶️ Start Game
+          </Button>
+        )}
+        {showRestartButton && (
+          <Button
+            key={2}
+            onClick={() => dispatch(setGameStatus(GAME_STATUS.RESTARTED))}
+          >
+            🔁 Restart Game
+          </Button>
+        )}
+        <Button key={3} onClick={() => dispatch(toggleScoreModal())}>
+          📊 Top Score
+        </Button>
+        {currentTurnCount > 0 && (
+          <Pill key={4}>
+            <>🖱️ Turns: {currentTurnCount}</>
+          </Pill>
+        )}
+        {currentElapsedTime > 0 && (
+          <Pill key={5}>
+            <>⏱️ Elapsed seconds: {currentElapsedTime}</>
+          </Pill>
+        )}
+      </ModalBottom>
     </ModalContainer>
   );
 }

@@ -2,7 +2,7 @@ import { Card } from "models";
 import React from "react";
 import styled from "styled-components";
 
-import { boxShadows, colors, transitions } from "style/style-config";
+import { boxShadows, colors, devices, transitions } from "style/style-config";
 
 interface Props {
   card: Card;
@@ -16,7 +16,11 @@ interface CardContainerProps {
 }
 
 const CardContainer = styled.div<CardContainerProps>`
+  z-index: 1;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: ${(props) => (props.isFlipped ? "not-allowed" : "pointer")};
   border-radius: 8px;
   background: ${colors.light};
@@ -66,6 +70,10 @@ const CardImage = styled.img`
 
 const CardText = styled.h3`
   margin-left: 16px;
+  display: none;
+  @media ${devices.laptop} {
+    display: block;
+  }
 `;
 
 function GameCardJustImage({ card, onClick, isFlipped, isDisabled }: Props) {
